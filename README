@@ -1,0 +1,19 @@
+HR Management System (HRIS) adalah aplikasi web full stack yang dirancang untuk membantu perusahaan dalam mengelola seluruh proses sumber daya manusia secara terpusat, efisien, dan terintegrasi. Sistem ini mencakup pengelolaan data karyawan, absensi, cuti, penggajian, serta alur persetujuan (approval workflow) yang kompleks dengan dukungan notifikasi real-time.
+
+Aplikasi ini dibangun menggunakan arsitektur modern berbasis REST API dan real-time communication, dengan fokus pada keamanan, skalabilitas, dan performa tinggi, sehingga mampu menangani kebutuhan perusahaan berskala kecil hingga menengah.
+
+Fitur Utama:
+	•	Sistem autentikasi dan otorisasi berbasis JWT dengan role-based access control (Admin HR, Manager, dan Employee).
+	•	Manajemen data karyawan lengkap meliputi profil, departemen, jabatan, dan dokumen pendukung.
+	•	Sistem absensi digital dengan fitur clock-in dan clock-out serta perhitungan jam kerja otomatis.
+	•	Manajemen cuti dengan alur persetujuan bertingkat serta monitoring kuota dan histori cuti.
+	•	Simulasi payroll yang mencakup perhitungan gaji, tunjangan, potongan, dan pembuatan slip gaji digital.
+	•	Dashboard analitik interaktif untuk monitoring kehadiran, cuti, dan rekap data SDM.
+	•	Sistem notifikasi real-time untuk pengajuan cuti, persetujuan, dan pengumuman internal perusahaan.
+	•	Manajemen dokumen karyawan dengan penyimpanan terpusat dan kontrol akses berbasis peran.
+
+Teknologi yang Digunakan:
+	•	Frontend: React.js, Tailwind CSS,
+	•	Backend: Golang (Fiber) 
+	•	Database: PostgreSQL
+	•	Infrastruktur: Docker,
