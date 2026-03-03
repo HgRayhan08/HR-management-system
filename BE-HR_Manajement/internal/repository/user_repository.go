@@ -4,6 +4,7 @@ import (
 	"back-end-hr-manajement/domain"
 	"back-end-hr-manajement/dto"
 	"context"
+	"database/sql"
 
 	"github.com/doug-martin/goqu/v9"
 )
@@ -54,7 +55,7 @@ func (u *userRepository) SaveTokenRefresh(ctx context.Context, tokenData domain.
 }
 
 // UpdateTokenRefresh implements [domain.UserRepository].
-func (u *userRepository) UpdateTokenRefresh(ctx context.Context, userId string, tokenData string, time string) error {
+func (u *userRepository) UpdateTokenRefresh(ctx context.Context, userId string, tokenData string, time sql.NullTime) error {
 	ds := u.db.
 		Update(goqu.T("refresh_tokens")).
 		Set(goqu.Record{
@@ -65,4 +66,39 @@ func (u *userRepository) UpdateTokenRefresh(ctx context.Context, userId string, 
 
 	_, err := ds.Executor().ExecContext(ctx)
 	return err
+}
+
+// FindTokenByUserId implements [domain.UserRepository].
+func (u *userRepository) FindTokenByUserId(ctx context.Context, token string) (result dto.TokenResponse, err error) {
+	dataset := u.db.From("refresh_tokens").Where(goqu.C("token").Eq(token))
+	_, err = dataset.ScanStructContext(ctx, &result)
+	return
+}
+
+// FindRole implements [domain.UserRepository].
+func (u *userRepository) FindRole(ctx context.Context, roleId dto.RoleIdRequest) (result domain.RoleDomain, err error) {
+	dataset := u.db.From("roles").Where(goqu.C("id").Eq(roleId.RoleId))
+	_, err = dataset.ScanStructContext(ctx, &result)
+	return
+}
+
+// SaveRole implements [domain.UserRepository].
+func (u *userRepository) SaveRole(ctx context.Context, role domain.RoleDomain) error {
+	dataset := u.db.Insert("roles").Rows(role).Executor()
+	_, err := dataset.ExecContext(ctx)
+	return err
+}
+
+// DeleteRole implements [domain.UserRepository].
+func (u *userRepository) DeleteRole(ctx context.Context, roleId dto.RoleIdRequest) error {
+	dataset := u.db.Delete("roles").Where(goqu.C("id").Eq(roleId.RoleId)).Executor()
+	_, err := dataset.ExecContext(ctx)
+	return err
+}
+
+// FindAllRole implements [domain.UserRepository].
+func (u *userRepository) FindAllRole(ctx context.Context) (result []domain.RoleDomain, err error) {
+	dataset := u.db.From("roles")
+	_, err = dataset.ScanStructContext(ctx, &result)
+	return
 }
