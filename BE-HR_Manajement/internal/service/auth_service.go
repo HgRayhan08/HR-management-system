@@ -27,7 +27,7 @@ func NewAuthService(repository domain.UserRepository) domain.AuthService {
 }
 
 // Register implements [domain.AuthService].
-func (a *authService) Register(ctx context.Context, req dto.AuthRequest) (dto.RegisterResponse, error) {
+func (a *authService) Register(ctx context.Context, req dto.RegisterRequest) (dto.RegisterResponse, error) {
 	chekEmail, err := a.repository.FindtUserByEmail(ctx, req.Email)
 	if err != nil && !errors.Is(err, sql.ErrNoRows) {
 		return dto.RegisterResponse{}, fiber.NewError(fiber.StatusInternalServerError, "gagal memeriksa email")
@@ -54,14 +54,14 @@ func (a *authService) Register(ctx context.Context, req dto.AuthRequest) (dto.Re
 		return dto.RegisterResponse{}, errors.New("Failed Registrasi User")
 	}
 	return dto.RegisterResponse{
-		ID:        user.ID,
+		Id:        user.ID,
 		Email:     user.Email,
 		CreatedAt: user.CreatedAt,
 	}, nil
 }
 
 // Login implements [domain.AuthService].
-func (a *authService) Login(ctx context.Context, req dto.AuthRequest) (dto.AuthResponse, error) {
+func (a *authService) Login(ctx context.Context, req dto.LoginRequest) (dto.AuthResponse, error) {
 	chekUser, err := a.repository.FindtUserByEmail(ctx, req.Email)
 	if err != nil && !errors.Is(err, sql.ErrNoRows) {
 		return dto.AuthResponse{}, fiber.NewError(fiber.StatusInternalServerError, "gagal memeriksa email")
@@ -93,7 +93,7 @@ func (a *authService) Login(ctx context.Context, req dto.AuthRequest) (dto.AuthR
 	}
 	// data token refresh
 	tokenData := domain.RefreshTokenDomain{
-		ID:        uuid.NewString(),
+		Id:        uuid.NewString(),
 		UserId:    chekUser.ID,
 		Token:     tokenRefresh,
 		CreatedAt: sql.NullTime{Valid: true, Time: time.Now()},
@@ -163,7 +163,7 @@ func (a *authService) RefreshToken(ctx context.Context, req dto.TokenRequest, f 
 // CreateRole implements [domain.AuthService].
 func (a *authService) CreateRole(ctx context.Context, req dto.RoleRequest) error {
 	data := domain.RoleDomain{
-		ID:          uuid.NewString(),
+		Id:          uuid.NewString(),
 		Name:        req.Name,
 		Description: req.Description,
 	}

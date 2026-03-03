@@ -17,20 +17,20 @@ type UserDomain struct {
 }
 
 type RefreshTokenDomain struct {
-	ID        string       `db:"id"`
+	Id        string       `db:"id"`
 	Token     string       `db:"token"`
 	UserId    string       `db:"user_id"`
 	CreatedAt sql.NullTime `db:"created_at"`
 }
 
 type RoleDomain struct {
-	ID          string `db:"id"`
+	Id          string `db:"id"`
 	Name        string `db:"name"`
 	Description string `db:"description"`
 }
 
 type UserRepository interface {
-	// refresh Token
+	// refresh Tokena
 	SaveTokenRefresh(ctx context.Context, tokenData RefreshTokenDomain) error
 	FindTokenByUserId(ctx context.Context, userId string) (dto.TokenResponse, error)
 	FindToken(ctx context.Context, token string) (dto.TokenResponse, error)

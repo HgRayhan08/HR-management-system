@@ -8,8 +8,8 @@ import (
 )
 
 type AuthService interface {
-	Login(ctx context.Context, req dto.AuthRequest) (dto.AuthResponse, error)
-	Register(ctx context.Context, req dto.AuthRequest) (dto.RegisterResponse, error)
+	Login(ctx context.Context, req dto.LoginRequest) (dto.AuthResponse, error)
+	Register(ctx context.Context, req dto.RegisterRequest) (dto.RegisterResponse, error)
 	RefreshToken(ctx context.Context, req dto.TokenRequest, f fiber.Ctx) (dto.TokenResponse, error)
 
 	Logout(ctx context.Context, f fiber.Ctx) error

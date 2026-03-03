@@ -13,9 +13,9 @@ type userRepository struct {
 	db *goqu.Database
 }
 
-func NewUserRepository(db *goqu.Database) domain.UserRepository {
+func NewUserRepository(db *sql.DB) domain.UserRepository {
 	return &userRepository{
-		db: db,
+		db: goqu.New("postgres", db),
 	}
 }
 
@@ -97,8 +97,14 @@ func (u *userRepository) DeleteRole(ctx context.Context, roleId dto.RoleIdReques
 }
 
 // FindAllRole implements [domain.UserRepository].
-func (u *userRepository) FindAllRole(ctx context.Context) (result []domain.RoleDomain, err error) {
+func (u *userRepository) FindAllRole(ctx context.Context) ([]domain.RoleDomain, error) {
+	var result []domain.RoleDomain
 	dataset := u.db.From("roles")
-	_, err = dataset.ScanStructContext(ctx, &result)
-	return
+	err := dataset.ScanStructsContext(ctx, &result)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
 }

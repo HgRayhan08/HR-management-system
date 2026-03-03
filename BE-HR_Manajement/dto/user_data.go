@@ -10,10 +10,15 @@ type User struct {
 	UpdatedAt sql.NullTime `json:"updated_at"`
 }
 
-type AuthRequest struct {
+type LoginRequest struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
-	RoleId   string `json:"role_id,omitempty"`
+}
+
+type RegisterRequest struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+	RoleId   string `json:"role_id"`
 }
 
 type UserIdRequest struct {
@@ -39,13 +44,12 @@ type AuthResponse struct {
 }
 
 type RegisterResponse struct {
-	ID        string       `json:"id"`
+	Id        string       `json:"id"`
 	Email     string       `json:"email"`
 	CreatedAt sql.NullTime `json:"created_at"`
 }
 
 type RoleRequest struct {
-	ID          string `json:id"`
 	Name        string `json:"name"`
 	Description string `json:"description"`
 }
