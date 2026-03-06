@@ -1,7 +1,6 @@
 CREATE TABLE employees (
    id UUID PRIMARY KEY default gen_random_uuid(),
    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-   department_id UUID NOT NULL REFERENCES departments(id) ON DELETE CASCADE,
    position_id UUID NOT NULL REFERENCES positions(id) ON DELETE CASCADE,
    employee_code VARCHAR(255) NOT NULL UNIQUE,
    avatar_url TEXT,
